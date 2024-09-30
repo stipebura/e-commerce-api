@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 app.use(morgan("tiny"));
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use("/api/v1/auth", authRouter);
 app.get("/", (req, res) => {
   res.send("e-commerce");
