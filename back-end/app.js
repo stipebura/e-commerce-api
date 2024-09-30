@@ -6,7 +6,11 @@ const port = process.env.PORT || 5000;
 const DB = require("./db/connect");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
+const authRouter = require("./routes/authRoutes");
+const morgan = require("morgan");
+app.use(morgan("tiny"));
 app.use(express.json());
+app.use("/api/v1/auth", authRouter);
 app.get("/", (req, res) => {
   res.send("e-commerce");
 });
