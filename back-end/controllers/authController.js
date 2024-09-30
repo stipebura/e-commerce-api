@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
-const jwt = require("jsonwebtoken");
+const { attachCookiesToResponse } = require("../utils");
 const CustomError = require("../errors");
 const register = async (req, res) => {
   const { email, name, password } = req.body;
@@ -13,10 +13,8 @@ const register = async (req, res) => {
 
   const user = await User.create({ email, name, password, role });
   const tokenUser = { name: user.name, userID: user._id, role: user.role };
-  const token = jwt.sign(tokenUser, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_LIFETIME,
-  });
-  res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
+  attachCookiesToResponse({ res, user: tokenUser });
+  res.status(StatusCodes.CREATED).json({ user });
 };
 const login = async (req, res) => {
   res.send("login");
