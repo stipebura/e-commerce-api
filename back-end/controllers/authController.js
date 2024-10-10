@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
-const { attachCookiesToResponse } = require("../utils");
+const { createTokenUser, attachCookiesToResponse } = require("../utils");
+
 const CustomError = require("../errors");
 const register = async (req, res) => {
   const { email, name, password } = req.body;
@@ -36,9 +37,9 @@ const login = async (req, res) => {
       "Entered credentials are not correct"
     );
   }
-  const tokenUser = { name: user.name, userID: user._id, role: user.role };
+  const tokenUser = createTokenUser(user);
   attachCookiesToResponse({ res, user: tokenUser });
-  res.status(StatusCodes.CREATED).json({ user: tokenUser });
+  res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 const logout = async (req, res) => {
   // removing cookie
