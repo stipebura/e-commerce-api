@@ -12,13 +12,10 @@ const {
   deleteReview,
 } = require("../controllers/reviewController");
 
-router
-  .route("/")
-  .get(authenticateUser, getAllReviews)
-  .post([authenticateUser, authorizePermissions("user,admin")], createReview);
+router.route("/").get(getAllReviews).post(authenticateUser, createReview);
 router
   .route("/:id")
-  .get(authenticateUser, getSingleReview)
-  .patch([authenticateUser, authorizePermissions("user,admin")], updateReview)
-  .delete([authenticateUser, authorizePermissions("user,admin")], deleteReview);
+  .get(getSingleReview)
+  .patch(authenticateUser, updateReview)
+  .delete(authenticateUser, deleteReview);
 module.exports = router;
