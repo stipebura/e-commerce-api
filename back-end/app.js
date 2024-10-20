@@ -39,7 +39,7 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());
-app.use(morgan("tiny"));
+
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static("./public"));
@@ -49,9 +49,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/orders", orderRouter);
-app.get("/api/v1", (req, res) => {
-  res.send("e-commerce");
-});
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 // connect to db and start listening
